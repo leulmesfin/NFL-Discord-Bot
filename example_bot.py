@@ -1,20 +1,20 @@
-from typing import Final
 import discord
 import os
 from dotenv import load_dotenv
-
-# create an instance of a Client. This client is our connection to Discord
-intents = discord.Intents.default()
-intents.message_content = True
-client = discord.Client(intents=intents)
+from discord.ext import commands
+import nfl_stats
 
 # STEP 0: Load our token from somwhere safe
 load_dotenv()
-TOKEN: Final[str] = os.getenv('DISCORD_TOKEN')
+TOKEN = os.getenv('DISCORD_TOKEN')
 
 # We use the Client.event() decorator to register an event. Since the library
 # is async, we do things in a "callback" style manner.
 # A callback is a function that is called when something happens. 
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix='$', intents=intents)
 
 # The on_ready() event is called when 
 # the bot has finished logging in and setting things up.
@@ -30,16 +30,34 @@ TOKEN: Final[str] = os.getenv('DISCORD_TOKEN')
 
 # Finally, we run the bot with our login token.
 
-@client.event
+@bot.event
 async def on_ready():
-    print(f'We have logged in as {client.user}')
+    print(f'We have logged in as {bot.user}')
 
-@client.event
+@bot.event
 async def on_message(message):
-    if message.author == client.user:
+    if message.author == bot.user:
         return
     
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
 
-client.run(TOKEN)
+    # This forwards the message to the command handler
+    await bot.process_commands(message)
+
+# Command handling with discord.ext.commands
+@bot.command()
+async def foo(ctx, *args):
+    arguments = ', '.join(args)
+    await ctx.send(f'{len(args)} arguments: {arguments}')
+
+@bot.command()
+async def ping(ctx):
+    await ctx.send('Pong!')
+
+@bot.command()
+async def nfl_scores(ctx):
+    await ctx.send(nfl_stats.nfl_game_scores())
+
+# Run the bot
+bot.run(TOKEN)
