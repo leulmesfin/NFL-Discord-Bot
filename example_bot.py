@@ -55,9 +55,16 @@ async def foo(ctx, *args):
 async def ping(ctx):
     await ctx.send('Pong!')
 
+# Gives you the live score of NFL games for the current week. 
+# Also specifies the game date & broadcast channel
 @bot.command()
 async def nfl_scores(ctx):
     await ctx.send(nfl_stats.nfl_game_scores())
+
+# Gives you the bye week teams
+@bot.command()
+async def bye_teams(ctx):
+    await ctx.send(nfl_stats.bye_week_teams())
 
 # Run the bot
 bot.run(TOKEN)
