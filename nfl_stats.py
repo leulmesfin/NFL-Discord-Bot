@@ -106,7 +106,7 @@ def receiving_yards():
         receiving_yards_lst = sort_by_yards_passing(receiving_yards_lst) # sort list by receiving yards
         receiving_yards_str = ""
         receiving_yards_str += "=" * 50 + "\n"
-        receiving_yards_str += "Receiving Yards Leaderboard: " + "\n"
+        receiving_yards_str += "Receptions Leaderboard: " + "\n"
         receiving_yards_str += "=" * 50 + "\n"
         for i, player in enumerate(receiving_yards_lst, 1):
             receiving_yards_str += f"{i}. {player}\n"

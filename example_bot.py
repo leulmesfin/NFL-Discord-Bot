@@ -87,5 +87,13 @@ async def receiving_yards(ctx):
 async def aura_rank(ctx):
     await ctx.send(aura.aura_ranking())
 
+@bot.command()
+async def leul_him(ctx):
+    await ctx.send("GOAT")
+
+@bot.command()
+async def ryan_him(ctx):
+    await ctx.send("Ryan sold.")
+
 # Run the bot
 bot.run(TOKEN)

@@ -1,6 +1,6 @@
 
 def aura_ranking():
-    leaderboard = ['Leul', 'Dilsh', 'Sathvik', 'Kush', 'David', 'Adi']
+    leaderboard = ['Leul', 'Dilsh', 'Sathvik', 'Kush', 'David', 'Ryan', 'Adi']
     ranking = "=" * 50 + "\n"
     ranking += "Aura Leaderboard: " + "\n"
     ranking += "=" * 50 + "\n"
