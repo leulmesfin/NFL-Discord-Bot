@@ -63,8 +63,15 @@ async def nfl_scores(ctx):
 
 # Gives you the bye week teams
 @bot.command()
-async def bye_teams(ctx):
+async def bye_week(ctx):
     await ctx.send(nfl_stats.bye_week_teams())
+
+# Gives you the rushing yards leaders
+@bot.command()
+async def rushing_yards(ctx):
+    await ctx.send(nfl_stats.rushing_yards())
+
+
 
 # Run the bot
 bot.run(TOKEN)
