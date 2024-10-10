@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from discord.ext import commands
 import nfl_stats
+import aura
 
 # STEP 0: Load our token from somwhere safe
 load_dotenv()
@@ -66,12 +67,25 @@ async def nfl_scores(ctx):
 async def bye_week(ctx):
     await ctx.send(nfl_stats.bye_week_teams())
 
+# Gives you the passing yards leaders
+@bot.command()
+async def passing_yards(ctx):
+    await ctx.send(nfl_stats.passing_yards())
+
 # Gives you the rushing yards leaders
 @bot.command()
 async def rushing_yards(ctx):
     await ctx.send(nfl_stats.rushing_yards())
 
+# Gives you the receiving yards leaders
+@bot.command()
+async def receiving_yards(ctx):
+    await ctx.send(nfl_stats.receiving_yards())
 
+# aura ranking
+@bot.command()
+async def aura_rank(ctx):
+    await ctx.send(aura.aura_ranking())
 
 # Run the bot
 bot.run(TOKEN)

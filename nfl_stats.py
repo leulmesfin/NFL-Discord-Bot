@@ -16,6 +16,46 @@ def sort_by_yards(leaderboard):
     #     yards = stats.split(',')[1].split(' ')[1] # [n], removed YDS (isolated n)
     #     print(yards)
 
+# works for passing and receiving yards since they both exist @ index 0
+def sort_by_yards_passing(leaderboard):
+    return sorted(leaderboard, key=lambda player: int(player.split("-")[1].split(',')[0].split(' ')[1]), reverse=True) # sort in descending order
+    # for player in leaderboard:
+    #     # extract the player's rushing yards
+    #     stats = player.split("-")[1] # [n CAR, n YDS, n TD]
+    #     yards = stats.split(',')[1].split(' ')[1] # [n], removed YDS (isolated n)
+    #     print(yards)
+
+# Passing yards leaderboard
+def passing_yards():
+    # ESPN API URL for NFL scoreboard
+    url = ESPN_API_URL
+
+    # Get request to ESPN Football Stats API
+    r = requests.get(url)
+    if r.status_code == 200:
+        data = r.json()
+        pass_yards_lst = []
+
+        for event in data['events']:
+            for competition in event['competitions']:
+                for category in competition['leaders']:
+                    if category['name'] == 'passingYards':
+                        for player in category['leaders']:
+                            pass_yards_lst.append(f"{player['athlete']['fullName']} - {player['displayValue']}")
+
+        pass_yards_lst = sort_by_yards_passing(pass_yards_lst) # sort list by passing yards
+        pass_yards_str = ""
+        pass_yards_str += "=" * 50 + "\n"
+        pass_yards_str += "Passing Yards Leaderboard: " + "\n"
+        pass_yards_str += "=" * 50 + "\n"
+        for i, player in enumerate(pass_yards_lst, 1):
+            pass_yards_str += f"{i}. {player}\n"
+
+        return pass_yards_str
+    else:
+        return f"Request failed with status code: {r.status_code}"
+    
+# Rushing yards leaderboard
 def rushing_yards():
     # ESPN API URL for NFL scoreboard
     url = ESPN_API_URL
@@ -45,7 +85,36 @@ def rushing_yards():
     else:
         return f"Request failed with status code: {r.status_code}"
 
+# Receiving yards leaderboard
+def receiving_yards():
+    # ESPN API URL for NFL scoreboard
+    url = ESPN_API_URL
 
+    # Get request to ESPN Football Stats API
+    r = requests.get(url)
+    if r.status_code == 200:
+        data = r.json()
+        receiving_yards_lst = []
+
+        for event in data['events']:
+            for competition in event['competitions']:
+                for category in competition['leaders']:
+                    if category['name'] == 'receivingYards':
+                        for player in category['leaders']:
+                            receiving_yards_lst.append(f"{player['athlete']['fullName']} - {player['displayValue']}")
+
+        receiving_yards_lst = sort_by_yards_passing(receiving_yards_lst) # sort list by receiving yards
+        receiving_yards_str = ""
+        receiving_yards_str += "=" * 50 + "\n"
+        receiving_yards_str += "Receiving Yards Leaderboard: " + "\n"
+        receiving_yards_str += "=" * 50 + "\n"
+        for i, player in enumerate(receiving_yards_lst, 1):
+            receiving_yards_str += f"{i}. {player}\n"
+
+        return receiving_yards_str
+    else:
+        return f"Request failed with status code: {r.status_code}"
+    
 def bye_week_teams():
     # ESPN API URL for NFL scoreboard
     url = ESPN_API_URL
@@ -97,7 +166,8 @@ def nfl_game_scores():
                 scores += f"{reformat_date(event['date'])}" + "\n"  # print out date for each game
                 score_str = score_str[:-1]
                 scores += (score_str[:-1]) + "\n"  # omitting the extra '-'. For some reason, I need the splice for both lines or else it doesn't work. Why?
-                scores += f"Broadcast: {flatten_list(game_channels)}" + "\n"
+                channels = ", ".join(flatten_list(game_channels))
+                scores += f"Broadcast: {channels}" + "\n"
 
                 score_str = "Score (Away-Home): "
                 game_channels = []
