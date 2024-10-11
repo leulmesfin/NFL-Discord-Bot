@@ -129,7 +129,7 @@ def bye_week_teams():
         data = r.json()
         teamsOnBye = data["week"]["teamsOnBye"]
         for team in teamsOnBye:
-            bye_week_teams += f"{team["displayName"]}\n"
+            bye_week_teams += f"{team['displayName']}\n"
     else:
         return f"Request failed with status code: {r.status_code}"
 
