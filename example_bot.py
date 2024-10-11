@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from discord.ext import commands
 import nfl_stats
 import aura
+import webserver
 
 # STEP 0: Load our token from somwhere safe
 load_dotenv()
@@ -95,5 +96,6 @@ async def leul_him(ctx):
 async def ryan_him(ctx):
     await ctx.send("Ryan sold.")
 
+webserver.keep_alive()
 # Run the bot
 bot.run(TOKEN)
